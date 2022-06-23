@@ -1,0 +1,10 @@
+2022-06-08 12:30:26,589 - experiment_impact_tracker.compute_tracker.ImpactTracker - ERROR - Encountered exception within power monitor thread!
+2022-06-08 12:30:26,596 - experiment_impact_tracker.compute_tracker.ImpactTracker - ERROR -   File "/home/thpham/research_project/benchmark-tracker/experiment_impact_tracker/compute_tracker.py", line 161, in launch_power_monitor
+    _sample_and_log_power(log_dir, initial_info, logger=logger)
+  File "/home/thpham/research_project/benchmark-tracker/experiment_impact_tracker/compute_tracker.py", line 112, in _sample_and_log_power
+    log_dir=log_dir,
+  File "/home/thpham/research_project/benchmark-tracker/experiment_impact_tracker/cpu/intel.py", line 88, in get_intel_power
+    return get_rapl_power(pid_list, logger, **kwargs)
+  File "/home/thpham/research_project/benchmark-tracker/experiment_impact_tracker/cpu/intel.py", line 555, in get_rapl_power
+    "For some reason the total intel estimated power is less than the attributable power. This "
+
