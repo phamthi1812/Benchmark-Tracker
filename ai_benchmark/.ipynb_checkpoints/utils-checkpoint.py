@@ -31,7 +31,7 @@ from ai_benchmark.config import TestConstructor
 from ai_benchmark.models import *
 
 MAX_TEST_DURATION = 100
-
+SECONDS_PER_HOUR = 3600
 
 class BenchmarkResults:
 
@@ -132,11 +132,11 @@ def loadData(test_type, dimensions):
 
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
-
             image = Image.open(path.join(path.dirname(__file__), "data/classification/" + str(j) + ".jpg"))
+            #image = Image.open(path.join(path.dirname(__file__), "output/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
-
+            
     if test_type == "enhancement":
 
         data = np.zeros(dimensions)
@@ -531,8 +531,8 @@ def geometrical_mean(results):
 
 def run_tests(training, inference, micro, verbose, use_CPU, precision, _type, start_dir):
     csv_columns = ["tool_energy_consumption(kWh)","tool_carbon_emissions(kgC02eq)","tool_duration(seconds)","tool_PUE"]
-    csv_training_file="ai_benchmark/RESULTS10/results_training.csv"
-    csv_inference_file="ai_benchmark/RESULTS10/results_inference.csv"
+    csv_training_file="ai_benchmark/results/RESULTS11/results_training.csv"
+    csv_inference_file="ai_benchmark/results/RESULTS11/results_inference.csv"
     csvfile1= open(csv_inference_file,'a')
     writer1 = csv.DictWriter(csvfile1,fieldnames = csv_columns)
     writer1.writeheader()
@@ -595,8 +595,8 @@ def run_tests(training, inference, micro, verbose, use_CPU, precision, _type, st
                     print("Tracking for inference start !!!!")
                     now = datetime.now()
                     dt_string = now.strftime("%d:%m:%Y_%H:%M:%S")    
-                    os.mkdir("logPath10/Inference/"+dt_string+"_inference_"+str(test.id))                  
-                    with ImpactTracker("logPath10/Inference/"+dt_string+"_inference_"+str(test.id)):
+                    os.mkdir("results/logPath11/Inference/"+dt_string+"_inference_"+str(test.id))                  
+                    with ImpactTracker("results/logPath11/Inference/"+dt_string+"_inference_"+str(test.id)):
                         # Init tracker with log path
                     #tracker = ImpactTracker("logPath/"+dt_string+"_inference_"+str(test.id))
                     # Start tracker in a separate process
@@ -638,10 +638,10 @@ def run_tests(training, inference, micro, verbose, use_CPU, precision, _type, st
                             # Optional. Adding this will ensure that your experiment stops if impact tracker throws an exception and exit.
                             tracker.get_latest_info_and_check_for_errors()'''
                     tracker_INFERENCE_results = {}
-                    data_interface = DataInterface(["logPath10/Inference/"+dt_string+"_inference_"+str(test.id)])
+                    data_interface = DataInterface(["results/logPath11/Inference/"+dt_string+"_inference_"+str(test.id)])
                     tracker_INFERENCE_results["tool_energy_consumption(kWh)"]=data_interface.total_power
                     tracker_INFERENCE_results["tool_carbon_emissions(kgC02eq)"]=data_interface.kg_carbon
-                    tracker_INFERENCE_results["tool_duration(seconds)"]=data_interface.exp_len_hours*3600
+                    tracker_INFERENCE_results["tool_duration(seconds)"]=data_interface.exp_len_hours*SECONDS_PER_HOUR
                     #tracker_INFERENCE_results["tool_PUE"]=data_interface.PUE
                     print(tracker_INFERENCE_results)                   
                     writer1.writerow(tracker_INFERENCE_results)
@@ -656,8 +656,8 @@ def run_tests(training, inference, micro, verbose, use_CPU, precision, _type, st
                     print("Tracking for training start !!!!")
                     now = datetime.now()
                     dt_string = now.strftime("%d:%m:%Y_%H:%M:%S")    
-                    os.mkdir("logPath10/Training/"+dt_string+"_training_"+str(test.id))                  
-                    with ImpactTracker("logPath10/Training/"+dt_string+"_training_"+str(test.id)):
+                    os.mkdir("results/logPath11/Training/"+dt_string+"_training_"+str(test.id))                  
+                    with ImpactTracker("results/logPath11/Training/"+dt_string+"_training_"+str(test.id)):
                     #tracker = ImpactTracker("logPath/"+dt_string+"_training_"+str(test.id))
                     # Start tracker in a separate process
                     #tracker.launch_impact_monitor()
@@ -718,10 +718,10 @@ def run_tests(training, inference, micro, verbose, use_CPU, precision, _type, st
                             # Optional. Adding this will ensure that your experiment stops if impact tracker throws an exception and exit.
                             tracker.get_latest_info_and_check_for_errors()   '''
                     tracker_TRAINING_results = {}
-                    data_interface = DataInterface(["logPath10/Training/"+dt_string+"_training_"+str(test.id)])
+                    data_interface = DataInterface(["results/logPath11/Training/"+dt_string+"_training_"+str(test.id)])
                     tracker_TRAINING_results["tool_energy_consumption(kWh)"]=data_interface.total_power
                     tracker_TRAINING_results["tool_carbon_emissions(kgC02eq)"]=data_interface.kg_carbon
-                    tracker_TRAINING_results["tool_duration(seconds)"]=data_interface.exp_len_hours*3600
+                    tracker_TRAINING_results["tool_duration(seconds)"]=data_interface.exp_len_hours*SECONDS_PER_HOUR
                     #tracker_TRAINING_results["tool_PUE"]=data_interface.PUE
                     print(tracker_TRAINING_results)                
                     writer2.writerow(tracker_TRAINING_results)

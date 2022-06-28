@@ -51,11 +51,7 @@ class TestConstructor:
     def getTests(self):
 
         benchmark_tests = [
-####### here I am trying to modify batch_size to make room for tracker work!!! pld btach size is (50,20,10,8,10,10,2,10,10,5,15,4,1,10,1,1,10,10,no training for last models!)
-            # first try by 2*old
-            #second try *10
-            #third try *5 
-            #fourth try : *4
+            
             Test(test_id=1, test_type="classification", model="MobileNet-V2", model_src="mobilenet_v2.meta",
                  use_src=False,
                  tests_training=[SubTest(200, [224, 224, 3], [1001], 22, min_passes=5, max_duration=30,
@@ -105,7 +101,7 @@ class TestConstructor:
                  tests_inference=[SubTest(80, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30, ref_time=110)],
                  tests_micro=[SubTest(1, [224, 224, 3], [1000], 22, min_passes=5, max_duration=30, ref_time=56)]),
 
-            Test(test_id=8, test_type="enhancement", model="SRCNN 9-5-5", model_src="srcnn.meta", use_src=False,
+           ''' Test(test_id=8, test_type="enhancement", model="SRCNN 9-5-5", model_src="srcnn.meta", use_src=False,
                  tests_training=[SubTest(40, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30,
                                          loss_function="MSE", optimizer="Adam", learning_rate=1e-4, ref_time=285)],
                  tests_inference=[
@@ -179,7 +175,7 @@ class TestConstructor:
                  tests_inference=[
                      SubTest(8, [512, 512, 3], [64, 64, 3], 22, min_passes=5, max_duration=30, ref_time=125)],
                  tests_micro=[
-                     SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=67)]),'''
+                     SubTest(1, [512, 512, 3], [512, 512, 3], 22, min_passes=5, max_duration=30, ref_time=67)]),
 
             Test(test_id=17, test_type="enhancement", model="Pixel-RNN", model_src="pixel_rnn.meta", use_src=True,
                  tests_training=[SubTest(40, [64, 64, 3], [64, 64, 3], 22, min_passes=5, max_duration=30,
@@ -198,6 +194,7 @@ class TestConstructor:
                  tests_training=[],
                  tests_inference=[SubTest(4, [1, 20], [None], 22, min_passes=5, max_duration=30, ref_time=193)],
                  tests_micro=[])'''
+            
 
         ]
 
