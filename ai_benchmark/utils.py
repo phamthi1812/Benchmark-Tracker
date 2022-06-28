@@ -133,7 +133,6 @@ def loadData(test_type, dimensions):
         data = np.zeros(dimensions)
         for j in range(dimensions[0]):
             image = Image.open(path.join(path.dirname(__file__), "data/classification/" + str(j) + ".jpg"))
-            #image = Image.open(path.join(path.dirname(__file__), "output/" + str(j) + ".jpg"))
             image = resize_image(image, [dimensions[1], dimensions[2]])
             data[j] = image
             
